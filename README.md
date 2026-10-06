@@ -1,5 +1,8 @@
-# projeto-PIF
-Repositório destinado ao desenvolvimento de um jogo em C, como requisito para obtenção de nota na disciplina
+# ContraSenha
+Repositório destinado ao desenvolvimento do jogo ContraSenha, na linguagem C, como requisito para obtenção de nota na disciplina de Programação Imperativa e Funcional (PIF)
+
+### Descrição do Jogo:
+Hoje em dia, as senhas são utilizadas para tudo no nosso cotidiano. Quanto mais difíceis de serem adivinhadas, mais seguras estão nossas informações. ContraSenha é um jogo onde você tem que obedecer todas as nossas regras para criar sua senha segura e manter seus dados a salvo. Será que você consegue cumprir todos os requisitos?
 
 
 ### Membros:
