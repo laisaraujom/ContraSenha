@@ -1,9 +1,19 @@
 # ContraSenha
-Repositório destinado ao desenvolvimento do jogo ContraSenha, na linguagem C, como requisito para obtenção de nota na disciplina de Programação Imperativa e Funcional (PIF)
+Repositório destinado ao desenvolvimento do jogo ContraSenha, na linguagem C, como requisito para obtenção de nota na disciplina de Programação Imperativa e Funcional (PIF).
 
-### Descrição do Jogo:
-Hoje em dia, as senhas são utilizadas para tudo no nosso cotidiano. Quanto mais difíceis de serem adivinhadas, mais seguras estão nossas informações. ContraSenha é um jogo onde você tem que obedecer todas as nossas regras para criar sua senha segura e manter seus dados a salvo. Será que você consegue cumprir todos os requisitos?
+### Requisitos:
+Usar obrigatoriamente:
+- Estruturas (structs);
+- Ponteiros;
+- Alocação dinâmica de memória;
+- Listas encadeadas;
+- Matrizes
+- Escrita e leitura em arquivo;
 
+### Descrição do jogo:
+O jogador deve inserir uma senha e, com o andamento do jogo, regras aparecerão e este deverá alterá-la para que cumpra todos os requisitos.
+
+"Hoje em dia, as senhas são utilizadas para tudo no nosso cotidiano. Quanto mais difíceis de serem adivinhadas, mais seguras estão nossas informações. ContraSenha é um jogo onde você tem que obedecer todas as nossas regras para criar sua senha segura e manter seus dados a salvo. Será que você consegue cumprir todos os requisitos?"
 
 ### Membros:
 | Nome | E-mail |
