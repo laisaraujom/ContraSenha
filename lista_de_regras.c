@@ -3,6 +3,7 @@
 #include <stdio.h> //caso precise
 #include <stdlib.h> //caso precise
 #include <string.h> //caso precise
+//importar a lista de regras
 
 Regra 1: "Sua senha deve conter todas as vogais"; //lembrar de olhar maiusculas e minusculas (ver se vale usar lower na verificação)
 Regra 2: "Sua senha deve conter pelo menos um numero"; //verificação dos digitos 0 a 9
