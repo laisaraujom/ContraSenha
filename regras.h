@@ -18,3 +18,5 @@ void adicionar_regra(Regra **head, int id, const char *descricao, FuncaoValidado
 Regra* carregar_todas_as_regras(void);
 
 int validar_regras_ativas(Regra *head, const char *senha);
+
+void desbloquear_proxima_regra(Regra *head); 

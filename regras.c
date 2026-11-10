@@ -25,8 +25,6 @@ Regra* criar_regra(int id, const char *descricao, FuncaoValidadora funcao) {
 
 //REGRAS:
 
-//FALTA FAZER: 3, 4, 5, 
-
 // quando virar 1, ele entende que a vogal foi digitada!!
 int validar_regra_1(const char *senha) {
     int a = 0, e = 0, i = 0, o = 0, u = 0;
@@ -58,6 +56,28 @@ int validar_regra_2(const char *senha) {
     }
     return 0;
 }
+
+
+int validar_regra_3(const char *senha) {
+    for (int idx = 0; senha[idx] != '\0'; idx++) {
+        if (isalnum(senha[idx]) == 0 && senha[idx] != ' ') {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int validar_regra_4(const char *senha) {
+    for (int idx = 0; senha[idx] != '\0'; idx++) {
+        if (isupper(senha[idx]) != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+// tem q ver essa!!! a 5 vai mudar
+
 
 //!! ver se tem um jeito mais simples !! (depois ne, vale pra a 7 e 8 tb)
 int validar_regra_6(const char *senha) {
@@ -208,7 +228,7 @@ Regra* carregar_todas_as_regras() {
     atual = atual->next;
     atual->next = criar_regra(4, "Ops! A senha não pode ter dois caracteres especiais iguais");
     atual = atual->next;
-    atual->next = criar_regra(5, "Fazer o foguinho para destruir a senha"); //mudar esse nome depois
+    atual->next = criar_regra(5, "Fazer o foguinho para destruir a senha"); //mudar essa regra!!!
     atual = atual->next;
     atual->next = criar_regra(6, "Sua senha deve conter o nome da cidade dos programadores do jogo");
     atual = atual->next;
@@ -240,4 +260,15 @@ int validar_regras_ativas(Regra *head, const char *senha) {
         atual = atual->next;
     }
     return todas_ok;
+}
+
+void desbloquear_proxima_regra(Regra *head) {
+    Regra *atual = head;
+    while (atual != NULL && atual->ativa == 1) {
+        if (atual->next != NULL && atual->next->ativa == 0) { 
+            atual->next->ativa = 1;
+            break;
+        }
+        atual = atual->next;
+    }
 }
