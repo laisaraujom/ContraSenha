@@ -239,7 +239,7 @@ Regra* carregar_todas_as_regras() {
     atual = atual->next;
     atual->next = criar_regra(4, "Ops! A senha não pode ter dois caracteres especiais iguais");
     atual = atual->next;
-    atual->next = criar_regra(5, "Fazer o foguinho para destruir a senha"); //mudar essa regra!!!
+    atual->next = criar_regra(5, "Os dois primeiros caracteres da senha devem ser iguais aos dois últimos, mas em ordem invertida."); 
     atual = atual->next;
     atual->next = criar_regra(6, "Sua senha deve conter o nome da cidade dos programadores do jogo");
     atual = atual->next;
