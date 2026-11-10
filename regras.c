@@ -3,7 +3,7 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+#include <ctype.h> // pra ver o caractere especial
 
 //INÍCIO DO CÓDIGO:
 
@@ -23,8 +23,9 @@ Regra* criar_regra(int id, const char *descricao, FuncaoValidadora funcao) {
     return nova;
 }
 
-//REGRAS:
+//REGRAS
 
+// Regra 1: "Sua senha deve conter todas as vogais"
 // quando virar 1, ele entende que a vogal foi digitada!!
 int validar_regra_1(const char *senha) {
     int a = 0, e = 0, i = 0, o = 0, u = 0;
@@ -39,6 +40,7 @@ int validar_regra_1(const char *senha) {
     return (a && e && i && o && u);
 }
 
+// Regra 2: "Sua senha deve conter pelo menos um numero"
 // quando identificar um numero, vira 1
 int validar_regra_2(const char *senha) {
     for (int idx = 0; senha[idx] != '\0'; idx++) {
@@ -56,8 +58,8 @@ int validar_regra_2(const char *senha) {
     }
     return 0;
 }
-
-
+// Regra 3: "Sua senha deve conter ao menos um caractere especial (!, @, #...)" 
+// mesma coisa, vira 1 quando for satisfeita
 int validar_regra_3(const char *senha) {
     for (int idx = 0; senha[idx] != '\0'; idx++) {
         if (isalnum(senha[idx]) == 0 && senha[idx] != ' ') {
@@ -67,6 +69,7 @@ int validar_regra_3(const char *senha) {
     return 0;
 }
 
+// Regra 4: "Sua senha deve conter ao menos uma letra maiúscula"
 int validar_regra_4(const char *senha) {
     for (int idx = 0; senha[idx] != '\0'; idx++) {
         if (isupper(senha[idx]) != 0) {
@@ -75,7 +78,7 @@ int validar_regra_4(const char *senha) {
     }
     return 0;
 }
-
+// Regra 5: "espelhar os últimos dois caracteres"; 
 int validar_regra_5(const char *senha) {
     int len = strlen(senha);
 
@@ -90,47 +93,54 @@ int validar_regra_5(const char *senha) {
     }
 }
 
-//!! ver se tem um jeito mais simples !! (depois ne, vale pra a 7 e 8 tb)
+// funções para as regras 6 7 e 8
+void converter_minusculas(char *senha) {
+    for (int i = 0; senha[i] != '\0'; i++) {
+        if (senha[i] >= 'A' && senha[i] <= 'Z') {
+            senha[i] = senha[i] + 32;
+        }
+    }
+}
+
+//funcao pra procurar a palavra direto
+int contem_palavra(const char *senha, const char *palavra) {
+    char senha_tolower[100];
+    strncpy(senha_tolower, senha, sizeof(senha_tolower) - 1);
+    senha_tolower[sizeof(senha_tolower) - 1] = '\0';
+    converter_minusculas(senha_tolower);
+
+    if (strstr(senha_tolower, palavra) != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+// Regra 6: "Sua senha deve conter o nome da cidade dos programadores do jogo"
 int validar_regra_6(const char *senha) {
-    int len = strlen(senha);
-    for (int i = 0; i + 5 < len; i++) {
-        if ((senha[i] == 'r' || senha[i] == 'R') &&
-            (senha[i + 1] == 'e' || senha[i + 1] == 'E') &&
-            (senha[i + 2] == 'c' || senha[i + 2] == 'C') &&
-            (senha[i + 3] == 'i' || senha[i + 3] == 'I') &&
-            (senha[i + 4] == 'f' || senha[i + 4] == 'F') &&
-            (senha[i + 5] == 'e' || senha[i + 5] == 'E')) {
-            return 1;
-        }
+    if (contem_palavra(senha, "recife")) {
+        return 1;
     }
     return 0;
 }
 
+// Regra 7: "Sua senha deve conter o dia da entrega em algarismos romanos"
 int validar_regra_7(const char *senha) {
-    int len = strlen(senha);
-    for (int i = 0; i + 2 < len; i++) {
-        if (senha[i] == 'X' && senha[i + 1] == 'I' && senha[i + 2] == 'X') {
-            return 1;
-        }
-        if (senha[i] == 'x' && senha[i + 1] == 'i' && senha[i + 2] == 'x') {
-            return 1;
-        }
+    if (contem_palavra(senha, "xix")) {
+        return 1;
     }
     return 0;
 }
 
+// Regra 8: "Sua senha deve conter o nome da melhor materia de CC"
 int validar_regra_8(const char *senha) {
-    int len = strlen(senha);
-    for (int i = 0; i + 2 < len; i++) {
-        if ((senha[i] == 'p' || senha[i] == 'P') &&
-            (senha[i + 1] == 'i' || senha[i + 1] == 'I') &&
-            (senha[i + 2] == 'f' || senha[i + 2] == 'F')) {
-            return 1;
-        }
+    if (contem_palavra(senha, "pif")) {
+        return 1;
     }
     return 0;
 }
 
+
+// Regra 9: "A soma dos algarismos da sua senha deve ser igual a 25"
 int validar_regra_9(const char *senha) {
     int soma = 0;
     for (int i = 0; senha[i] != '\0'; i++) {
@@ -144,7 +154,9 @@ int validar_regra_9(const char *senha) {
     }
     return 0;
 }
-// vale para a 10 e 11
+
+// função que vale para a 10 e 11
+// eu acho que dá pra usar essa que eu escrevi pra as regras 6, 7 e 8, depois mostro a vcs
 int tem_palavra(const char *senha, const char *palavra) {
     int len_senha = strlen(senha);
     int len_palavra = strlen(palavra);
@@ -167,6 +179,7 @@ int tem_palavra(const char *senha, const char *palavra) {
     return 0;
 }
 
+// Regra 10: "Sua senha deve conter a senha da wifi do CESAR"
 int validar_regra_10(const char *senha) {
     if (tem_palavra(senha, "bemvindoaocesar")) {
         return 1;
@@ -174,6 +187,7 @@ int validar_regra_10(const char *senha) {
     return 0;
 }
 
+// Regra 11: "Sua senha deve conter um pais que comeca com 'M'"
 int validar_regra_11(const char *senha) {
     if (tem_palavra(senha, "mexico") || tem_palavra(senha, "marrocos") ||
         tem_palavra(senha, "madagascar") || tem_palavra(senha, "malasia") ||
@@ -189,6 +203,7 @@ int validar_regra_11(const char *senha) {
     return 0;
 }
 
+// Regra 12: "Ops! Sua senha deve ter, no maximo, 50 caracteres"
 int validar_regra_12(const char *senha) {
     int tam = 0;
     while (senha[tam] != '\0') {
