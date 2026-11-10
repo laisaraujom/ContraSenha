@@ -76,8 +76,19 @@ int validar_regra_4(const char *senha) {
     return 0;
 }
 
-// tem q ver essa!!! a 5 vai mudar
+int validar_regra_5(const char *senha) {
+    int len = strlen(senha);
 
+    if (len < 2) {
+        return 0;
+    }
+
+    if (senha[0] == senha[len - 1] && senha[1] == senha[len - 2]) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 //!! ver se tem um jeito mais simples !! (depois ne, vale pra a 7 e 8 tb)
 int validar_regra_6(const char *senha) {
