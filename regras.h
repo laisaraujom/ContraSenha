@@ -10,3 +10,11 @@ typedef struct Regra {
     FuncaoValidadora validar;
     struct Regra *next;      // Ponteiro para o proximo no da lista de regras
 } Regra;
+
+Regra* criar_regra(int id, const char *descricao, FuncaoValidadora funcao);
+
+void adicionar_regra(Regra **head, int id, const char *descricao, FuncaoValidadora funcao);
+
+Regra* carregar_todas_as_regras(void);
+
+int validar_regras_ativas(Regra *head, const char *senha);
