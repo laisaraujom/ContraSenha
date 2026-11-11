@@ -298,3 +298,29 @@ void desbloquear_proxima_regra(Regra *head) {
         atual = atual->next;
     }
 }
+
+void exibir_regras(Regra *head) {
+    Regra *atual = head;
+    int pendentes = 0;
+    printf("\n");
+    while (atual != NULL) {
+        if (atual->ativa && !atual->cumprida) {
+            pendentes++;
+            printf("Regra %2d: %s\n", atual->id, atual->descricao);
+        }
+        atual = atual->next;
+    }
+    if (pendentes == 0) {
+        printf("Todas as regras do jogo foram cumpridas!\n");
+    }
+}
+
+void liberar_lista_regras(Regra **head) {
+    Regra *atual = *head;
+    while (atual != NULL) {
+        Regra *temp = atual;
+        atual = atual->next;
+        free(temp);
+    }
+    *head = NULL;
+}

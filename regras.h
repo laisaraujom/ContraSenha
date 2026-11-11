@@ -20,3 +20,7 @@ Regra* carregar_todas_as_regras(void);
 int validar_regras_ativas(Regra *head, const char *senha);
 
 void desbloquear_proxima_regra(Regra *head); 
+
+void exibir_regras(Regra *head);
+
+void liberar_lista_regras(Regra **head);
