@@ -1,7 +1,9 @@
 #include <regras.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#include "jogo.h"
 int main() {
     
     
