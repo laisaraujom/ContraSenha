@@ -45,6 +45,63 @@ void limpar_mapa(Mapa *mapa) {
     }
 }
 
+void desenha_senha(Mapa *mapa, const char *senha, Monstrinho *monstrinho) {
+    (void)monstrinho;
+    limpar_mapa(mapa);
+
+    int linha_senha = mapa->linhas / 2;
+    int tam_senha = strlen(senha);
+    int x_inicio = (mapa->colunas - tam_senha) / 2;
+
+    if (x_inicio < 1) x_inicio = 1;
+
+    for (int i = 0; i < tam_senha && (x_inicio + i) < (mapa->colunas - 1); i++) {
+        mapa->grade[linha_senha][x_inicio + i] = senha[i];
+    }
+}
+
+// mostrar senha bonitinha e formatada
+void renderizar_terminal(Mapa *mapa, Monstrinho *monstrinho) {
+    const int LARGURA_INTERNA = 68;
+
+    printf("\033[38;2;171;209;198m╭"); // canto superior
+    for (int j = 0; j < LARGURA_INTERNA; j++) printf("─"); // linha horizontal superior
+    printf("╮\033[0m\n"); // canto superior direito
+
+    for (int i = 1; i < mapa->linhas - 1; i++) {
+        printf("\033[38;2;171;209;198m│\033[0m"); // borda lateral esquerda
+        int pos_impressa = 0;
+
+        for (int j = 1; j < mapa->colunas - 1; j++) { 
+            if (i == monstrinho->y && j == monstrinho->x) { // se for a posição atual do foguete
+                printf("%s", monstrinho->icone);
+                pos_impressa += 2;
+            } else if (i == mapa->linhas / 2 && mapa->grade[i][j] != ' ') {
+                printf("\033[1;38;2;171;209;198m%c\033[0m", mapa->grade[i][j]);
+                pos_impressa += 1;
+            } else {
+                putchar(' ');
+                pos_impressa += 1;
+            }
+        }
+
+        while (pos_impressa < LARGURA_INTERNA) { // preenche espaços restante até atingir a largura
+            putchar(' ');
+            pos_impressa++;
+        }
+
+        printf("\033[38;2;171;209;198m│\033[0m\n"); // borda lateral direita
+    }
+
+    printf("\033[38;2;171;209;198m╰"); // canto inferior esquerdo
+    for (int j = 0; j < LARGURA_INTERNA; j++) printf("─"); // linha horizontal inferior
+    printf("╯\033[0m\n"); // canto inferior direito
+}
+
+void renderizar_mapa(Mapa *mapa) {
+    (void)mapa;
+}
+
 void mover_monstrinho(Monstrinho *monstrinho, Mapa *mapa) {
     int prox_x = monstrinho->x + monstrinho->dir_x;
     int prox_y = monstrinho->y + monstrinho->dir_y;
