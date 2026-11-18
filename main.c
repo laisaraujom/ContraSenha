@@ -108,7 +108,6 @@ int main(void) {
             } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
                 jogo->jogo_ativo = 0;
                 em_espera = 0;
-}
             } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
                 jogo->jogo_ativo = 0;
                 em_espera = 0;

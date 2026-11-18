@@ -231,30 +231,30 @@ void adicionar_regra(Regra **head, int id, const char *descricao, FuncaoValidado
 //CARREGAR REGRAS:
 
 Regra* carregar_todas_as_regras() {
-    Regra *head = criar_regra(1, "Sua senha deve conter todas as vogais");
+    Regra *head = criar_regra(1, "Sua senha deve conter todas as vogais", validar_regra_1);
     Regra *atual = head;
     // conectando os nós adicionando todas as outras regras 
-    atual->next = criar_regra(2, "Sua senha deve conter pelo menos um numero");
+    atual->next = criar_regra(2, "Sua senha deve conter pelo menos um numero", validar_regra_2);
     atual = atual->next;
-    atual->next = criar_regra(3, "Sua senha deve conter ao menos dois caracteres especiais (!, @, #...)");
+    atual->next = criar_regra(3, "Sua senha deve conter ao menos dois caracteres especiais (!, @, #...)", validar_regra_3);
     atual = atual->next;
-    atual->next = criar_regra(4, "Ops! A senha não pode ter dois caracteres especiais iguais");
+    atual->next = criar_regra(4, "Ops! A senha não pode ter dois caracteres especiais iguais", validar_regra_4);
     atual = atual->next;
-    atual->next = criar_regra(5, "Os dois primeiros caracteres da senha devem ser iguais aos dois últimos, mas em ordem invertida."); 
+    atual->next = criar_regra(5, "Os dois primeiros caracteres da senha devem ser iguais aos dois últimos, mas em ordem invertida.", validar_regra_5); 
     atual = atual->next;
-    atual->next = criar_regra(6, "Sua senha deve conter o nome da cidade dos programadores do jogo");
+    atual->next = criar_regra(6, "Sua senha deve conter o nome da cidade dos programadores do jogo", validar_regra_6);
     atual = atual->next;
-    atual->next = criar_regra(7, "Sua senha deve conter o dia da entrega em algarismos romanos");
+    atual->next = criar_regra(7, "Sua senha deve conter o dia da entrega em algarismos romanos", validar_regra_7);
     atual = atual->next;
-    atual->next = criar_regra(8, "Sua senha deve conter o nome da melhor materia de CC");
+    atual->next = criar_regra(8, "Sua senha deve conter o nome da melhor materia de CC", validar_regra_8);
     atual = atual->next;
-    atual->next = criar_regra(9, "A soma dos algarismos da sua senha deve ser igual a 25");
+    atual->next = criar_regra(9, "A soma dos algarismos da sua senha deve ser igual a 25", validar_regra_9);
     atual = atual->next;
-    atual->next = criar_regra(10, "Sua senha deve conter a senha da wifi do CESAR");
+    atual->next = criar_regra(10, "Sua senha deve conter a senha da wifi do CESAR", validar_regra_10);
     atual = atual->next;
-    atual->next = criar_regra(11, "Sua senha deve conter um pais que comeca com 'M'");
+    atual->next = criar_regra(11, "Sua senha deve conter um pais que comeca com 'M'", validar_regra_11);
     atual = atual->next;
-    atual->next = criar_regra(12, "Ops! Sua senha deve ter, no maximo, 50 caracteres");
+    atual->next = criar_regra(12, "Ops! Sua senha deve ter, no maximo, 50 caracteres", validar_regra_12);
     atual = atual->next;
     return head;
 }

@@ -1,3 +1,5 @@
+#ifndef REGRAS_H
+#define REGRAS_H
 // estrutura basica do no de regra
 
 typedef int (*FuncaoValidadora)(const char *senha);
@@ -24,3 +26,5 @@ void desbloquear_proxima_regra(Regra *head);
 void exibir_regras(Regra *head);
 
 void liberar_lista_regras(Regra **head);
+
+#endif

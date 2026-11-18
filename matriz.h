@@ -29,6 +29,8 @@ void desenha_senha(Mapa *mapa, const char *senha, Monstrinho *monstrinho);
 
 void renderizar_mapa(Mapa *mapa);
 
+void renderizar_terminal(Mapa *mapa, Monstrinho *monstrinho);
+
 int checar_colisao_senha(Monstrinho *monstrinho, int linha_senha, int x_inicio_senha, int tamanho_senha);
 
 void liberar_mapa(Mapa **mapa);

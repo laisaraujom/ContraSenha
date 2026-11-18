@@ -1,8 +1,6 @@
 #include "jogo.h"
 #include <sys/time.h>
 
-void renderizar_mapa_com_emoji(Mapa *mapa, Monstrinho *monstrinho);
-
 long long obter_tempo_ms(void) {
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -57,7 +55,7 @@ void finalizar_jogo(EstadoJogo **jogo) {
         return;
     }
 
-    if (*jogo)->senha != NULL){
+    if ((*jogo)->senha != NULL){
         free((*jogo)->senha);
         }
     
@@ -98,9 +96,9 @@ void inserir_caractere_na_posicao(EstadoJogo *jogo, char c) {
         jogo->senha = temp;
     }
 
-    for (int i = jogo->tamanho_senha; i >= jogo->posicao_cursor; i++) {
-        jogo->senha[i] = jogo->senha[i+1];
-    }
+for (int i = jogo->tamanho_senha; i >= jogo->posicao_cursor; i--) {
+    jogo->senha[i + 1] = jogo->senha[i];
+}
 
     jogo->senha[jogo->posicao_cursor] = c;
     jogo->tamanho_senha++;
@@ -253,12 +251,12 @@ void processar_rodada(EstadoJogo *jogo) {
             senha_escondida[i] = '*';
         }
         senha_escondida[len] = '\0';
-        desenhar_elementos(jogo->mapa, senha_escondida, &(jogo->monstrinho));
+        desenha_senha(jogo->mapa, senha_escondida, &(jogo->monstrinho));
     } else {
-        desenhar_elementos(jogo->mapa, jogo->senha, &(jogo->monstrinho));
+        desenha_senha(jogo->mapa, jogo->senha, &(jogo->monstrinho));
     }
 
-    renderizar_mapa_com_emoji(jogo->mapa, &(jogo->monstrinho));
+    renderizar_terminal(jogo->mapa, &(jogo->monstrinho));
     exibir_regras(jogo->lista_regras);
 
     jogo->pontuacao++;
