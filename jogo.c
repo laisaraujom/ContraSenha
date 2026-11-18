@@ -57,14 +57,35 @@ void finalizar_jogo(EstadoJogo **jogo) {
         return;
     }
 
-    free((*jogo)->senha);
-    free((*jogo)->senha_confirmacao);
+    if (*jogo)->senha != NULL){
+        free((*jogo)->senha);
+        }
+    
+    if ((*jogo)->senha_confirmacao != NULL) {
+        free((*jogo)->senha_confirmacao);
+        }
+
 
     liberar_mapa(&((*jogo)->mapa));
     liberar_lista_regras(&((*jogo)->lista_regras));
 
     free(*jogo);
     *jogo = NULL;
+}
+
+void atualizar_senha(EstadoJogo *jogo, const char *nova_senha) {
+    int novo_tamanho = strlen(nova_senha); 
+
+    if (novo_tamanho + 1 > jogo->capacidade_senha) { 
+        jogo->capacidade_senha = novo_tamanho + 10; 
+        char *temp = (char *) realloc(jogo->senha, jogo->capacidade_senha * sizeof(char)); 
+        if (temp == NULL) return; 
+        jogo->senha = temp; 
+    }
+
+    strcpy(jogo->senha, nova_senha); 
+    jogo->tamanho_senha = novo_tamanho; 
+    jogo->posicao_cursor = novo_tamanho; 
 }
 
 void inserir_caractere_na_posicao(EstadoJogo *jogo, char c) {
@@ -77,8 +98,8 @@ void inserir_caractere_na_posicao(EstadoJogo *jogo, char c) {
         jogo->senha = temp;
     }
 
-    for (int i = jogo->tamanho_senha; i >= jogo->posicao_cursor; i--) {
-        jogo->senha[i + 1] = jogo->senha[i];
+    for (int i = jogo->tamanho_senha; i >= jogo->posicao_cursor; i++) {
+        jogo->senha[i] = jogo->senha[i+1];
     }
 
     jogo->senha[jogo->posicao_cursor] = c;
