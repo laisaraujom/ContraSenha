@@ -215,20 +215,6 @@ int validar_regra_12(const char *senha) {
     return 0;
 }
 
-// Aloca dinamicamente um novo nó de regra para a lista encadeada
-Regra* criar_regra(int id, const char *descricao, FuncaoValidadora funcao) {
-    Regra *nova = (Regra *) malloc(sizeof(Regra)); 
-    if (nova == NULL) return NULL; 
-
-    nova->id = id; 
-    strncpy(nova->descricao, descricao, sizeof(nova->descricao) - 1); 
-    nova->descricao[sizeof(nova->descricao) - 1] = '\0'; 
-    nova->cumprida = 0; 
-    nova->ativa = (id == 1) ? 1 : 0; 
-    nova->validar = funcao; 
-    nova->next = NULL; 
-    return nova;
-}
 // Insere um novo nó de regra no final da lista encadeada
 void adicionar_regra(Regra **head, int id, const char *descricao, FuncaoValidadora funcao) {
     Regra *nova = criar_regra(id, descricao, funcao); 

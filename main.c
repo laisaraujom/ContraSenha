@@ -7,6 +7,8 @@
 #include <sys/select.h>
 #include "regras.h"
 #include "jogo.h"
+#include <time.h>
+#include "ranking.h"
 
 void ativar_modo_raw(struct termios *orig_termios) {
     struct termios raw;
@@ -83,7 +85,8 @@ int main(void) {
         printf("  * ContraSenha *\n\n");
         printf("  ╭──────────────────────────╮\n");
         printf("  │  [1] ─── INICIAR JOGO    │\n");
-        printf("  │  [2] ─── SAIR            │\n");
+        printf("  │  [2] ─── RANKING         │\n");
+        printf("  │  [3] ─── SAIR            │\n");
         printf("  ╰──────────────────────────╯\n\n");
         printf(" Escolha uma opção: ");
 
@@ -97,7 +100,16 @@ int main(void) {
 
             if (strcmp(comando, "1") == 0 || strcmp(comando, "iniciar") == 0) {
                 em_espera = 0;
-            } else if (strcmp(comando, "2") == 0 || strcmp(comando, "sair") == 0) {
+            } else if (strcmp(comando, "2") == 0 || strcmp(comando, "ranking") == 0) {
+                limpar_tela();
+                exibir_ranking();
+                printf("\nPressione ENTER para voltar ao menu principal...");
+                fgets(comando, sizeof(comando), stdin);
+            } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
+                jogo->jogo_ativo = 0;
+                em_espera = 0;
+}
+            } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
                 jogo->jogo_ativo = 0;
                 em_espera = 0;
             }
@@ -111,6 +123,9 @@ int main(void) {
 
     struct termios orig_termios;
     ativar_modo_raw(&orig_termios);
+    time_t inicio = time(NULL);
+    int venceu = 0;
+    int tempo_total = 0;
 
     while (jogo->jogo_ativo) {
         limpar_tela();
@@ -128,8 +143,12 @@ int main(void) {
             if (strcmp(jogo->senha, jogo->senha_confirmacao) == 0 && jogo->tamanho_confirmacao > 0) {
                 limpar_tela();
                 printf("\nSenha alterada com sucesso! Agora seus dados estarao seguros\n\n");
+                tempo_total = (int)(time(NULL) - inicio);
+                printf("Seu tempo: %d segundos\n", tempo_total);
                 fflush(stdout);
                 sleep(3);
+                venceu = 1;
+
                 jogo->jogo_ativo = 0;
                 continue;
             }
@@ -197,6 +216,25 @@ int main(void) {
     }
 
     desativar_modo_raw(&orig_termios);
+    if (venceu) {
+    tcflush(STDIN_FILENO, TCIFLUSH);   // descarta teclas que sobraram do jogo
+    char resp[10];
+    printf("\nDeseja salvar seu tempo (%d s) no ranking? (s/n): ", tempo_total);
+    if (fgets(resp, sizeof(resp), stdin) != NULL && (resp[0] == 's' || resp[0] == 'S')) {
+        char nome[TAM_NOME];
+        printf("Digite seu nome: ");
+        if (fgets(nome, sizeof(nome), stdin) != NULL) {
+            nome[strcspn(nome, "\n")] = '\0';
+            for (int i = 0; nome[i]; i++) {
+                if (nome[i] == ';') nome[i] = ' ';   // ';' quebraria o arquivo
+            }
+            if (nome[0] != '\0') {
+                registrar_no_ranking(nome, tempo_total);
+                printf("Tempo salvo no ranking!\n");
+                }
+            }
+        }
+    }
     finalizar_jogo(&jogo);
 
     return 0;
