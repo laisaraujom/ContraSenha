@@ -28,6 +28,10 @@ void limpar_tela(void) {
     printf("\033[2J\033[1;1H");
 }
 
+void reposicionar_cursor(void){
+    printf("\0333[H");
+}
+
 int kbhit(void) {
     struct timeval tv = {0, 20000};
     fd_set fds;
@@ -126,6 +130,8 @@ int main(void) {
     int venceu = 0;
     int tempo_total = 0;
 
+    printf("\033[H"); //pra limpar a tela
+
     while (jogo->jogo_ativo) {
         limpar_tela();
         printf("  * ContraSenha *\n\n");
@@ -210,6 +216,7 @@ int main(void) {
             }
         }
 
+        printf("\033[J"); //pra limpar a tela
         fflush(stdout);
         usleep(30000);
     }

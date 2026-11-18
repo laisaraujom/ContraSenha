@@ -66,7 +66,7 @@ void liberar_ranking(Jogador **lista) {
 void exibir_ranking(void) {
     Jogador *lista = carregar_ranking();
 
-    printf("  * RANKING TOP %d *\n\n", MAX_RANKING);
+    printf("\n\n  ---------- TOP %d CONTRASENHA ----------\n\n", MAX_RANKING);
     if (lista == NULL) {
         printf("  Nenhum jogador no ranking ainda.\n");
     } else {
