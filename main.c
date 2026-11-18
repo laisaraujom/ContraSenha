@@ -71,7 +71,7 @@ void desenhar_caixa(const char *texto, int cursor) {
 }
 
 int main(void) {
-    EstadoJogo *jogo = inicializar_jogo(12, 68);
+    EstadoJogo *jogo = inicializar_jogo(15, 68);
     if (jogo == NULL) {
         printf("Erro ao inicializar o jogo!\n");
         return 1;

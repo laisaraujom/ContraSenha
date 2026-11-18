@@ -234,11 +234,11 @@ Regra* carregar_todas_as_regras() {
     Regra *head = criar_regra(1, "Sua senha deve conter todas as vogais", validar_regra_1);
     Regra *atual = head;
     // conectando os nós adicionando todas as outras regras 
-    atual->next = criar_regra(2, "Sua senha deve conter pelo menos um numero", validar_regra_2);
+    atual->next = criar_regra(2, "Sua senha deve conter ao menos um numero", validar_regra_2);
     atual = atual->next;
-    atual->next = criar_regra(3, "Sua senha deve conter ao menos dois caracteres especiais (!, @, #...)", validar_regra_3);
+    atual->next = criar_regra(3, "Sua senha deve conter ao menos um caractere especial (!, @, #...)", validar_regra_3);
     atual = atual->next;
-    atual->next = criar_regra(4, "Ops! A senha não pode ter dois caracteres especiais iguais", validar_regra_4);
+    atual->next = criar_regra(4, "Sua senha deve conter ao menos uma letra maiúscula", validar_regra_4);
     atual = atual->next;
     atual->next = criar_regra(5, "Os dois primeiros caracteres da senha devem ser iguais aos dois últimos, mas em ordem invertida.", validar_regra_5); 
     atual = atual->next;
