@@ -1,4 +1,9 @@
 # ContraSenha
+
+<p align="center">
+  <img src="contrasenha-logo-jade-borda-cyprus.png" alt="Logo do jogo" width="300">
+</p>
+
 Repositório destinado ao desenvolvimento do jogo ContraSenha, na linguagem C, como requisito para obtenção de nota na disciplina de Programação Imperativa e Funcional (PIF).
 
 ### Requisitos:
