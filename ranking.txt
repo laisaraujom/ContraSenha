@@ -1,10 +1,1 @@
-teste ranking;5
-Eraldo;21
-Lais teste;57
-lais 2;67
-Lais 3;90
-teste lais;95
-Lais;181
-Teste;200
-Teste;201
-Teste;202
+Lais;234
