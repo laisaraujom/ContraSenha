@@ -14,7 +14,7 @@
 #include "timer.h"
 
 void limpar_tela(void) {
-    printf("\033[2J\033[1;1H");
+    printf("\033[H\033[2J\033[3J");
 }
 void desenhar_caixa(const char *texto, int cursor) {
     int tam = strlen(texto);
