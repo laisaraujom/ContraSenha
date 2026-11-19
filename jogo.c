@@ -257,6 +257,7 @@ void processar_rodada(EstadoJogo *jogo) {
     }
 
     renderizar_terminal(jogo->mapa, &(jogo->monstrinho));
+    printf("\033[J");
     exibir_regras(jogo->lista_regras);
 
     jogo->pontuacao++;

@@ -51,7 +51,7 @@ void desenhar_caixa(const char *texto, int cursor) {
 }
 
 int main(void) {
-    EstadoJogo *jogo = inicializar_jogo(12, 68);
+    EstadoJogo *jogo = inicializar_jogo(15, 68);
     if (jogo == NULL) {
         printf("Erro ao inicializar o jogo!\n");
         return 1;
@@ -147,7 +147,6 @@ int main(void) {
                             jogo->posicao_cursor_confirmacao++;
                         }
                     } else if (c == '\n' || c == '\r') {
-                    } else if (c == '\n' || c == '\r') {
                         if (strcmp(jogo->senha_confirmacao, "ver") == 0) {
                             printf("\nSenha atual: %s\n", jogo->senha);
                             fflush(stdout);
@@ -182,6 +181,7 @@ int main(void) {
                             jogo->posicao_cursor++;
                         }
                     } else if (c == 9) {
+                        jogo->jogo_ativo = 0;
                     } else if (c == 127 || c == '\b') {
                         apagar_caractere_na_posicao(jogo);
                     } else if (c >= 32 && c <= 126) {
@@ -191,7 +191,7 @@ int main(void) {
             }
         }
 
-        printf("\033[J"); //pra limpar a tela
+        //printf("\033[J"); //pra limpar a tela
         fflush(stdout);
     }
 

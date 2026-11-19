@@ -240,7 +240,7 @@ Regra* carregar_todas_as_regras() {
     atual = atual->next;
     atual->next = criar_regra(4, "Sua senha deve conter ao menos uma letra maiúscula", validar_regra_4);
     atual = atual->next;
-    atual->next = criar_regra(5, "Os 2 primeiros caracteres devem ser os 2 ultimos invertidos", validar_regra_5);
+    atual->next = criar_regra(5, "Os dois últimos caracteres devem ser iguais aos dois primeiros, mas invertidos", validar_regra_5);
     atual = atual->next;
     atual->next = criar_regra(6, "Sua senha deve conter o nome da cidade dos programadores do jogo", validar_regra_6);
     atual = atual->next;
@@ -292,7 +292,7 @@ void exibir_regras(Regra *head) {
     while (atual != NULL) {
         if (atual->ativa && !atual->cumprida) {
             pendentes++;
-            printf("Regra %2d: %s\n", atual->id, atual->descricao);
+            printf("Regra %2d: %-95s\n", atual->id, atual->descricao);
         }
         atual = atual->next;
     }
