@@ -9,37 +9,13 @@
 #include "jogo.h"
 #include <time.h>
 #include "ranking.h"
-
-void ativar_modo_raw(struct termios *orig_termios) {
-    struct termios raw;
-    tcgetattr(STDIN_FILENO, orig_termios);
-    raw = *orig_termios;
-    raw.c_lflag &= ~(ECHO | ICANON);
-    tcsetattr(STDIN_FILENO, TCSANOW, &raw);
-    printf("\033[?25l");
-}
-
-void desativar_modo_raw(struct termios *orig_termios) {
-    printf("\033[?25h");
-    tcsetattr(STDIN_FILENO, TCSANOW, orig_termios);
-}
+#include "screen.h"
+#include "keyboard.h"
+#include "timer.h"
 
 void limpar_tela(void) {
     printf("\033[2J\033[1;1H");
 }
-
-void reposicionar_cursor(void){
-    printf("\0333[H");
-}
-
-int kbhit(void) {
-    struct timeval tv = {0, 20000};
-    fd_set fds;
-    FD_ZERO(&fds);
-    FD_SET(STDIN_FILENO, &fds);
-    return select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
-}
-
 void desenhar_caixa(const char *texto, int cursor) {
     int tam = strlen(texto);
     int largura = 66;
@@ -112,9 +88,6 @@ int main(void) {
             } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
                 jogo->jogo_ativo = 0;
                 em_espera = 0;
-            } else if (strcmp(comando, "3") == 0 || strcmp(comando, "sair") == 0) {
-                jogo->jogo_ativo = 0;
-                em_espera = 0;
             }
         }
     }
@@ -124,8 +97,9 @@ int main(void) {
         return 0;
     }
 
-    struct termios orig_termios;
-    ativar_modo_raw(&orig_termios);
+    keyboardInit();
+    screenInit(0);
+    timerInit(30);
     time_t inicio = time(NULL);
     int venceu = 0;
     int tempo_total = 0;
@@ -133,7 +107,10 @@ int main(void) {
     printf("\033[H"); //pra limpar a tela
 
     while (jogo->jogo_ativo) {
-        limpar_tela();
+        if (!timerTimeOver()) {
+            continue;
+        }
+        screenHomeCursor();
         printf("  * ContraSenha *\n\n");
 
         processar_rodada(jogo);
@@ -158,18 +135,18 @@ int main(void) {
                 continue;
             }
 
-            if (kbhit()) {
-                char c;
-                if (read(STDIN_FILENO, &c, 1) == 1) {
+            if (keyhit()) {
+                int c = readch();
+                if (c > 0) {
                     if (c == 27) {
-                        char seq[2];
-                        if (read(STDIN_FILENO, &seq[0], 1) == 1 && read(STDIN_FILENO, &seq[1], 1) == 1) {
-                            if (seq[0] == '[' && seq[1] == 'D' && jogo->posicao_cursor_confirmacao > 0) {
-                                jogo->posicao_cursor_confirmacao--;
-                            } else if (seq[0] == '[' && seq[1] == 'C' && jogo->posicao_cursor_confirmacao < jogo->tamanho_confirmacao) {
-                                jogo->posicao_cursor_confirmacao++;
-                            }
+                        readch();              
+                        int seta = readch();   
+                        if (seta == 'D' && jogo->posicao_cursor_confirmacao > 0) {
+                            jogo->posicao_cursor_confirmacao--;
+                        } else if (seta == 'C' && jogo->posicao_cursor_confirmacao < jogo->tamanho_confirmacao) {
+                            jogo->posicao_cursor_confirmacao++;
                         }
+                    } else if (c == '\n' || c == '\r') {
                     } else if (c == '\n' || c == '\r') {
                         if (strcmp(jogo->senha_confirmacao, "ver") == 0) {
                             printf("\nSenha atual: %s\n", jogo->senha);
@@ -193,20 +170,18 @@ int main(void) {
             desenhar_caixa(jogo->senha, jogo->posicao_cursor);
             printf("[Controles: Setas <-/-> movem | Backspace apaga | TAB = Sair]\n");
 
-            if (kbhit()) {
-                char c;
-                if (read(STDIN_FILENO, &c, 1) == 1) {
+            if (keyhit()) {
+                int c = readch();
+                if (c > 0) {
                     if (c == 27) {
-                        char seq[2];
-                        if (read(STDIN_FILENO, &seq[0], 1) == 1 && read(STDIN_FILENO, &seq[1], 1) == 1) {
-                            if (seq[0] == '[' && seq[1] == 'D' && jogo->posicao_cursor > 0) {
-                                jogo->posicao_cursor--;
-                            } else if (seq[0] == '[' && seq[1] == 'C' && jogo->posicao_cursor < jogo->tamanho_senha) {
-                                jogo->posicao_cursor++;
-                            }
+                        readch();               
+                        int seta = readch();    
+                        if (seta == 'D' && jogo->posicao_cursor > 0) {
+                            jogo->posicao_cursor--;
+                        } else if (seta == 'C' && jogo->posicao_cursor < jogo->tamanho_senha) {
+                            jogo->posicao_cursor++;
                         }
                     } else if (c == 9) {
-                        jogo->jogo_ativo = 0;
                     } else if (c == 127 || c == '\b') {
                         apagar_caractere_na_posicao(jogo);
                     } else if (c >= 32 && c <= 126) {
@@ -218,10 +193,11 @@ int main(void) {
 
         printf("\033[J"); //pra limpar a tela
         fflush(stdout);
-        usleep(30000);
     }
 
-    desativar_modo_raw(&orig_termios);
+    timerDestroy();
+    screenDestroy();
+    keyboardDestroy();
     if (venceu) {
     tcflush(STDIN_FILENO, TCIFLUSH);   // descarta teclas que sobraram do jogo
     char resp[10];
