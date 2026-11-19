@@ -1,6 +1,7 @@
 CC = gcc
-CFLAGS = -Wall
-ARQUIVOS = main.c jogo.c regras.c matriz.c ranking.c
+CFLAGS = -Wall -Icli-lib/include
+LIB = cli-lib/src/screen.c cli-lib/src/keyboard.c cli-lib/src/timer.c
+ARQUIVOS = main.c jogo.c regras.c matriz.c ranking.c $(LIB)
 EXEC = contrasenha
 
 all:
