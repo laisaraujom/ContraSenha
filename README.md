@@ -44,7 +44,6 @@ Recomendamos abrir o terminal em **tela cheia**, para que o mapa e as regras apa
 ### Biblioteca utilizada:
 - [**cli-lib**](https://github.com/tgfb/cli-lib), de Tiago Barros, distribuída sob a licença **BSD 3-Clause**. Ela é usada para controlar o **teclado** (leitura de teclas sem precisar de Enter), a **tela** (posicionamento do cursor) e o **timer** (ritmo de atualização do jogo). A biblioteca está na pasta `cli-lib/`, sem modificações, junto com o seu README e a sua licença originais.
 
-1. Clonar o repositório:
 ### Links Úteis:
 - [Vídeo de demonstração e breve explicação do jogo](https://www.youtube.com/watch?v=TUTJDmAcIT4)
 - [Slides de apresentação](https://canva.link/13s5dd9gfzm1kks)
